@@ -115,6 +115,55 @@ def print_chars(input_image):
         print()  # Add a newline after each "line" (column)
 
 
+def output_to_file(input_image, output_filename="character_image.html"):
+    """
+  Processes an image, calculates darkness for each pixel, and writes corresponding
+  characters to an HTML file with a specified font size.
+
+  Args:
+      input_image: A NumPy array representing the image.
+      output_filename: Name of the output HTML file. (default: "character_image.html")
+  """
+
+    height, width = input_image.shape[:2]
+
+    # Create the HTML content with font size style
+    html_content = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Image</title>
+  <style>
+    body {{
+      font-size: 8pt;
+      font-family: monospace;
+      line-height: 0.6;
+    }}
+  </style>
+</head>
+<body>
+<plaintext>
+"""
+
+    # Loop through pixels and create character representation
+    for y in range(height):
+        for x in range(width):
+            pixel = input_image[y, x]
+            darkness = calculate_darkness(pixel)
+            match = get_nearest_key(charMap, darkness)
+            html_content += match
+
+        html_content += "\n"  # Add a line break after each row
+
+    # Close the HTML content
+    html_content += "</body>\n</html>"
+
+    # Write the HTML content to the file
+    with open(output_filename, "w") as output_file:
+        output_file.write(html_content)
+
+
 def get_nearest_key(data_map, target_value):
     """
   Finds the key in a map with the value closest to a target value.
@@ -132,8 +181,5 @@ def get_nearest_key(data_map, target_value):
 
 charMap = create_font_mappings()
 
-print("Character Black Percentage (Sorted):")
-print(charMap)
-
-image = process_image('./test_image.jpg', 200)
-print_chars(image)
+image = process_image('./ian_gent.jpg', 200)
+output_to_file(image)
