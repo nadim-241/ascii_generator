@@ -14,7 +14,7 @@ def calculate_black_percentage(input_image):
 
     # Calculate total pixels and percentage
     total_pixels = input_image.shape[0] * input_image.shape[1]
-    black_percentage = black_pixels / 479 * 100
+    black_percentage = black_pixels / 641 * 100
 
     return black_percentage
 
@@ -25,7 +25,7 @@ def create_font_mappings():
     thickness = 2
     text_color = (0, 0, 0)  # Black color
     # Define character set
-    characters = list(string.ascii_lowercase + string.ascii_uppercase + string.digits)
+    characters = list(string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation + ' ')
     # Create a dictionary to store results
     char_black_perc = {}
     # Loop through characters and calculate black percentage
